@@ -33,6 +33,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 gem 'slim-rails'
+gem 'bootstrap-sass'
 gem 'bootstrap_form'
 gem 'jquery-turbolinks'
 
@@ -51,7 +52,13 @@ end
 
 group :development do
   gem 'rails_layout'
-  gem 'bootstrap-sass'
   gem 'quiet_assets'
   gem 'spring-commands-rspec'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'poltergeist'
+  gem 'launchy'
 end

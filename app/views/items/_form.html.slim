@@ -1,4 +1,7 @@
 .row
   = bootstrap_form_for @item, html: {class: 'col-md-4'} do |f|
     = f.text_field :name
+    = f.select :category_id, Category.order(:id).map{|c| [c.name, c.id, data: {children_path: category_sub_categories_path(c)}]}, {include_blank: true}, class: 'select-parent'
+    - sub_categories = @item.category.try(:sub_categories) || []
+    = f.select :sub_category_id, sub_categories.map{|c| [c.name, c.id]}, {include_blank: true}, class: 'select-children'
     = f.submit 'Save', class: 'btn btn-primary'
