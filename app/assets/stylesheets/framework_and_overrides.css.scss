@@ -4,15 +4,14 @@
 //= depend_on_asset "bootstrap/glyphicons-halflings-regular.ttf"
 //= depend_on_asset "bootstrap/glyphicons-halflings-regular.woff"
 
+// import the CSS framework
+@import "bootstrap";
 
 $bgDefault      : #2ecc71;
 $bgHighlight    : #27ae60;
 $colDefault     : #ecf0f1;
 $colHighlight   : #d1ffed;
 $dropDown       : false;
-
-// import the CSS framework
-@import "bootstrap";
 
 // http://work.smarchal.com/twbscolor/
 .navbar-default {
