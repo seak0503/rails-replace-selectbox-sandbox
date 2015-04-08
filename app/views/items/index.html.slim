@@ -4,6 +4,8 @@ table.table
   thead
     tr
       th Name
+      th Category
+      th Sub category
       th
       th
       th
@@ -12,6 +14,8 @@ table.table
     - @items.each do |item|
       tr
         td = item.name
+        td = item.category.name
+        td = item.sub_category.name
         td = link_to 'Show', item
         td = link_to 'Edit', edit_item_path(item)
         td = link_to 'Destroy', item, data: {:confirm => 'Are you sure?'}, :method => :delete
