@@ -19,6 +19,11 @@ $ ->
           success: (results) ->
             $selectChildren.empty()
             appendOptions($selectChildren, results)
+          error: (XMLHttpRequest, textStatus, errorThrown) ->
+            console.error("Error occurred in replaceChildrenOptions")
+            console.log("XMLHttpRequest: #{XMLHttpRequest.status}")
+            console.log("textStatus: #{textStatus}")
+            console.log("errorThrown: #{errorThrown}")
       else
         $selectChildren.empty()
 
