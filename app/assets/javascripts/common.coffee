@@ -1,13 +1,9 @@
 $ ->
   do ->
     replaceSelectOptions = ($select, results) ->
-      $select.empty()
-      option = $('<option>')
-      $select.append(option)
+      $select.html $('<option>')
       $.each results, ->
-        option = $('<option>')
-        option.val(this.id)
-        option.text(this.name)
+        option = $('<option>').val(this.id).text(this.name)
         $select.append(option)
 
     replaceChildrenOptions = ->
