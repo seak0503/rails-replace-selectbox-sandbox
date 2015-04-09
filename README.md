@@ -23,7 +23,7 @@ bundle install
 ### 3. Set up initial data
 
 ```
-bin/rake db:seed
+bin/rake db:migrate db:seed
 ```
 
 ### 4. Run Rails server
