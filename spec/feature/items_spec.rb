@@ -23,8 +23,11 @@ feature 'Items' do
     expect(page).to have_select 'Sub category', options: ['', '和書', '洋書']
     select '家電・カメラ・AV機器', from: 'Category'
     expect(page).to have_select 'Sub category', options: ['', '家電', 'カメラ']
+    select '', from: 'Category'
+    expect(page).to have_select 'Sub category', options: ['']
 
     # バリデーションエラーが発生してもセレクトボックスの内容が保持されることを検証する
+    select '家電・カメラ・AV機器', from: 'Category'
     select '家電', from: 'Sub category'
     click_on 'Save'
     expect(page).to have_content "can't be blank"

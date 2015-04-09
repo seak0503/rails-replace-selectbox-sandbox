@@ -1,6 +1,7 @@
 $ ->
   do ->
     appendOptions = ($select, results) ->
+      $select.empty()
       option = $('<option>')
       $select.append(option)
       $.each results, ->
@@ -17,7 +18,6 @@ $ ->
           url: childrenPath
           dataType: "json"
           success: (results) ->
-            $selectChildren.empty()
             appendOptions($selectChildren, results)
           error: (XMLHttpRequest, textStatus, errorThrown) ->
             console.error("Error occurred in replaceChildrenOptions")
@@ -25,7 +25,7 @@ $ ->
             console.log("textStatus: #{textStatus}")
             console.log("errorThrown: #{errorThrown}")
       else
-        $selectChildren.empty()
+        appendOptions($selectChildren, [])
 
     $('.select-parent').on
       'change': replaceChildrenOptions
