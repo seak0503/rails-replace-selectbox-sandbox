@@ -3,7 +3,7 @@
     = f.text_field :name
 
     - category_options = Category.order(:id).map { |c| [c.name, c.id, data: { children_path: category_sub_categories_path(c) }] }
-    = f.select :category_id, category_options, { include_blank: true }, class:  'select-parent'
+    = f.select :category_id, category_options, { include_blank: true }, class: 'select-parent'
 
     - sub_categories = @item.category.try(:sub_categories) || []
     - sub_category_options = sub_categories.map { |c| [c.name, c.id] }
