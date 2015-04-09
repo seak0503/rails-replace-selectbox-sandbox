@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :items
   resources :categories, only: [] do
-    get :sub_categories
+    resources :sub_categories, only: :index
   end
   root 'items#index'
 end
