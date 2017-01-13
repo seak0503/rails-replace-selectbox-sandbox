@@ -1,0 +1,16 @@
+.row
+  = bootstrap_form_for @order, html: {class: 'col-md-4'} do |f|
+    = f.text_field :contract_number
+
+    - destgroup_options = Destgroup.order(:id).map { |d| [d.name, d.id] }
+    = f.select :destgroup_ids, destgroup_options, { include_blank: true }, { multiple: true, class: 'multiple-select-parent', "data-url" => destgroups_order_categories_path }
+
+    - if @order.order_category
+      - order_categories = @order.destgroups.joins(:services).joins('INNER JOIN service_order_category_links ON services.id = service_order_category_links.service_id').joins('INNER JOIN order_categories ON service_order_category_links.order_category_id = order_categories.id').select('order_categories.*')
+    - else
+      - order_categories = []
+
+    - order_category_options = order_categories.map { |c| [c.name, c.id] }
+    = f.select :order_category_id, order_category_options, { include_blank: true }, class: 'multiple-select-children'
+
+    = f.submit 'Save', class: 'btn btn-primary'

@@ -1,0 +1,23 @@
+h1 Listing orders
+
+table.table
+  thead
+    tr
+      th ContractNumber
+      th OrderCategory
+      th Sub category
+      th
+      th
+
+  tbody
+    - @orders.each do |order|
+      tr
+        td = order.contract_number
+        td = order.order_category.name
+        td = link_to 'Show', order
+        td = link_to 'Edit', edit_order_path(order)
+        td = link_to 'Destroy', order, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Item', new_order_path
