@@ -14,19 +14,23 @@ $(function () {
     $this.find('option:selected').each(function () {
       array.push($(this).val());
     });
-    var query = "/?";
-    var last = array.length;
-    $(array).each(function (i) {
-      if (last == i + 1) {
-        query = query + "id[]=" + this;
-      } else {
-        query = query + "id[]=" + this + "&"
-      }
-    });
-    ajaxUrl = $this.data('url') + query;
-    $.get(ajaxUrl, function (data) {
-      replaceMultipleSelectOptions($selectChildren, data)
-    });
+    if (array.length > 0) {
+      var query = "/?";
+      var last = array.length;
+      $(array).each(function (i) {
+        if (last == i + 1) {
+          query = query + "id[]=" + this;
+        } else {
+          query = query + "id[]=" + this + "&"
+        }
+      });
+      ajaxUrl = $this.data('url') + query;
+      $.get(ajaxUrl, function (data) {
+        replaceMultipleSelectOptions($selectChildren, data);
+      });
+    } else {
+      replaceMultipleSelectOptions($selectChildren, []);
+    }
   }
   $('.multiple-select-parent').on('change', replaceMultipleChildrenOptions);
 });
