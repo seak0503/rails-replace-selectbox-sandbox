@@ -8,6 +8,9 @@ Sample app for replacing selectbox options by ajax.
 
 ## How to setup
 
+### 要件
+* ruby 2.2.6
+
 ### 1. Install PhantomJS
 
 Poltergeist requires PhantomJS. See https://github.com/teampoltergeist/poltergeist#installing-phantomjs
@@ -16,10 +19,14 @@ Poltergeist requires PhantomJS. See https://github.com/teampoltergeist/poltergei
 brew install phantomjs
 ```
 
-### 2. Bundle install
+### 2. install
 
 ```
-bundle install
+rbenv gemset create 2.2.5 replace-selectbox-sandbox
+
+gem install bundler
+
+bundle install --path vendor/bundle
 ```
 
 ### 3. Set up initial data
