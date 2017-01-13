@@ -5,8 +5,6 @@ Rails.application.routes.draw do
   end
   resources :orders
 
-  resources :destgroups, only: [] do
-    resources :order_categories, only: :index
-  end
+  get 'destgroups_order_categories' => 'order_categories#destgroups_order_categories', as: :destgroups_order_categories
   root 'items#index'
 end
