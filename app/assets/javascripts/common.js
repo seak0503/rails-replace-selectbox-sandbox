@@ -1,31 +1,32 @@
 $(function () {
   function replaceMultipleSelectOptions($select, data) {
     $select.html('<option>');
-    $.each(data, function () {
+    $(data).each(function () {
       option = $('<option>').val(this.id).text(this.name)
       $select.append(option);
     });
   }
 
-  function getMultipleSelectOptions() {
-    $selectChildren = $(this).closest('form').find('.multiple-select-children')
+  function replaceMultipleChildrenOptions() {
+    $this = $(this);
+    $selectChildren = $this.closest('form').find('.multiple-select-children')
     var array = [];
-    $(this).find('option:selected').each(function () {
+    $this.find('option:selected').each(function () {
       array.push($(this).val());
     });
     var query = "/?";
-    var max = array.length;
-    $(array).each(function (i, e) {
-      if (max == i + 1) {
-        query = query + "id[]=" +e;
+    var last = array.length;
+    $(array).each(function (i) {
+      if (last == i + 1) {
+        query = query + "id[]=" + this;
       } else {
-        query = query + "id[]=" + e + "&"
+        query = query + "id[]=" + this + "&"
       }
     });
-    path = $(this).data('url') + query;
-    $.get(path, function (data) {
+    ajaxUrl = $this.data('url') + query;
+    $.get(ajaxUrl, function (data) {
       replaceMultipleSelectOptions($selectChildren, data)
     });
   }
-  $('.multiple-select-parent').on('change', getMultipleSelectOptions);
+  $('.multiple-select-parent').on('change', replaceMultipleChildrenOptions);
 });
