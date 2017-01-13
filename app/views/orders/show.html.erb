@@ -1,0 +1,158 @@
+<div id='page-wrapper'>
+  <div class='row'>
+    <div class='col-lg-8'>
+
+      <a name="head"></a>
+
+      <p class="text-info"><%= notice %></p>
+      <p class="text-danger"><%= alert %></p>
+
+      <h2 class='page-header'>収容情報</h2>
+
+      <div class="well">
+      <p>
+        <strong>契約番号:</strong>
+        <%= @order.contract_number %>
+      </p>
+
+      <p>
+        <strong>顧客番号:</strong>
+        <%= @order.customer_number %>
+        <% if CustomerNumber.find_by(customer_num: @order.customer_number) %>
+          <%= CustomerNumber.find_by(customer_num: @order.customer_number).name %>
+        <% end %>
+      </p>
+
+      <p>
+        <strong>依頼先:</strong>
+        <% @order.destgroups.each do |group| %>
+          <%= group.name %>
+        <% end %>
+      </p>
+
+      <p>
+        <strong>担当営業:</strong>
+        <%= @order.sales_representative %>
+      </p>
+
+      <p>
+        <strong>添付ファイル:</strong><br>
+        <% @order_attachments.each do |o| %>
+          <% if o.document_url.present? %>
+            <% name = File.basename o.document_url%>
+            <% require 'uri' %>
+            <% name_unescape = URI.unescape(name) %>
+            <i class="fa fa-paperclip"><%= link_to(name_unescape, o.document_url, :target => "_blank") %></i><br>
+          <% end %>
+        <% end %>
+      </p>
+
+      <p>
+        <strong>納期回答:</strong>
+        <%= @order.delivery_date %>
+      </p>
+
+      <p>
+        <strong>ステータス:</strong>
+        <% if @order.status == '確認中' %>
+          <i class="text-danger fa fa-search"><%= @order.status %></i>
+        <% elsif @order.status == '作業中' %>
+          <i class="text-warning fa fa-wrench"><%= @order.status %></i>
+        <% elsif @order.status == '作業完了' %>
+          <i class="text-success fa fa-check-square"><%= @order.status %></i>
+        <% elsif @order.status == '完了' %>
+          <i class="text-primary fa fa-check"><%= @order.status %></i>
+        <% end %>
+      </p>
+
+      <p>
+        <strong>作成日:</strong>
+        <%= @order.created_at %>
+      </p>
+
+      <p>
+        <strong>外部チケット:</strong>
+        <%= auto_link(@order.external_reference) %>
+      </p>
+
+      <p>
+        <strong>作成者:</strong>
+        <% if @order.user.avatar.url.present? %>
+          <%= image_tag @order.user.avatar.thumb.url %>
+        <% end %>
+        <%= @order.user.username %>
+      </p>
+
+      <p>
+        <strong>メンバー:</strong>
+        <% @order.members.each do |member| %>
+          <%= member.username %>
+        <% end %>
+      </p>
+
+      <%= link_to '収容情報編集', edit_order_path(@order), class: 'btn btn-outline btn-primary btn-sm'%>
+      </div>
+      <p class="fa fa-arrow-left "><%= link_to ' 顧客情報一覧へ戻る', orders_path %></p><br>
+      <p class="fa fa-arrow-down"><%= link_to ' ページ下へ', order_path(@order, :anchor => 'foot')%></p>
+
+      <h3 class='page-header'>コメント</h3>
+
+      <% if @order.order_comment.present? %>
+        <% if @order.user.avatar.url.present? %>
+          <%= image_tag @order.user.avatar.thumb.url %>
+        <% end %>
+        <%= @order.user.username %>
+        <div class="well">
+          <%= simple_format(@order.order_comment) %>
+        </div>
+      <% end %>
+
+      <% @order.comments.each do |comment| %>
+        <% if User.find(comment.user_id).avatar.url.present? %>
+          <%= image_tag User.find(comment.user_id).avatar.thumb.url%>
+        <% end %>
+        <%= User.find(comment.user_id).username %>
+        <div class="well">
+          <%= auto_link(simple_format(comment.body), html: {target: '_blank'}) %>
+        <% if comment.comment_attachments.present? %>
+          <% comment.comment_attachments.each do |a| %>
+            <%if a.document_url.present?%>
+              <% commname = File.basename a.document_url %>
+
+              <% commname_unescape = URI.unescape(commname) %>
+              <p class="fa fa-paperclip"><%= link_to(commname_unescape, a.document_url, :target => "_blank") %></p><br>
+            <% end %>
+          <% end %>
+        <% end %>
+        <small><%= comment.created_at %></small>
+        </div>
+      <% end %>
+
+      <a name="foot"></a>
+      <p class="fa fa-arrow-up"><%= link_to ' ページ上へ', order_path(@order, :anchor => 'head')%></p>
+
+      <h4 class='page-header'>コメントを追加</h3>
+      <%= nested_form_for( [@order, comm = @order.comments.build],
+        :html => {'data-parsley-validate' => '',
+        'parsley-use-html5-constraints' => false} ) do |f| %>
+      <p>
+        <% if @user.avatar.url.present? %>
+          <%= image_tag @user.avatar.thumb.url %>
+        <% end %>
+        <%= @user.username %><br />
+        <%= f.hidden_field :user_id, :value => @user.id %>
+        <%= f.text_area :body, class: 'form-control', rows: "8", 'required' => '' %>
+        <%= f.label :comment_attachments, '添付ファイル' %><br>
+        <%= f.fields_for :comment_attachments do |c| %>
+            <%= c.file_field :document, :multiple => true, name: "comment_attachments[document][]"%>
+            <%= c.link_to_remove "フィールド削除" %>
+        <% end %>
+        <%= f.link_to_add "フィールドの追加", :comment_attachments %>
+      </p>
+      <p>
+        <%= f.submit 'コメント投稿', class: 'btn btn-success' %>
+      </p>
+      <% end %>
+    </div>
+  </div>
+</div>
