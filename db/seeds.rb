@@ -13,3 +13,13 @@ end
   sub_category = SubCategory.find_by_name sub_category_name
   Item.create(name: item_name, category: sub_category.category, sub_category: sub_category)
 end
+
+table_names = %w(services order_categories destgroups orders)
+table_names.each do |table_name|
+  path = Rails.root.join('db', 'seeds', "development", "#{table_name}.rb")
+  #path = Rails.root.join('db', 'seeds', "production", "#{table_name}.rb")
+  if File.exist?(path)
+    puts "Creating #{table_name}...."
+    require(path)
+  end
+end

@@ -32,6 +32,8 @@ bundle install --path vendor/bundle
 ### 3. Set up initial data
 
 ```
+bin/rake db:create
+
 bin/rake db:migrate db:seed
 ```
 
