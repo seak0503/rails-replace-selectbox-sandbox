@@ -1,14 +1,15 @@
-h1 Show item
+h1 Show order
 p
-  strong Name:
-  =< @item.name
+  strong ContractNumber:
+  =< @order.contract_number
 p
-  strong Category:
-  =< @item.category.name
+  strong OrderCategory:
+  =< @order.order_category.name
 p
-  strong Sub category:
-  =< @item.sub_category.name
+  strong Destgroup:
+  - @order.destgroups.each do |destgroup|
+    =< destgroup.name
 
-=> link_to 'Edit', edit_item_path(@item)
+=> link_to 'Edit', edit_order_path(@order)
 '|
-= link_to 'Back', items_path
+= link_to 'Back', orders_path
