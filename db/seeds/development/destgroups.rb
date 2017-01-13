@@ -1,8 +1,8 @@
 dest_group_names = %w(
   Network(L):NETWORK
   DCサービス:DC
-  GrowServer:SAAS_1
-  c9Flex:SAAS
+  GrowServer:CLOUD_1
+  c9Flex:CLOUD
   MSP:MSP
   BBTower\ WAF:SAAS_1
   SI/NI(JPIX):JPIX
